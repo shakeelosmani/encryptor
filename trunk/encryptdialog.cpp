@@ -2,13 +2,19 @@
 
 EncryptDialog::EncryptDialog(QWidget *parent) : QDialog(parent)
 {
-    encryptButton = new QPushButton("Start encryption");
+    encryptButton = new QPushButton("Encrypt");
     encryptButton->setEnabled(false);
 
     filePathEdit = new QLineEdit(this);
     filePathLabel = new QLabel("Choose file: ");
-    fileButton = new QPushButton("Choose...", this);
+    fileButton = new QPushButton("...", this);
+    fileButton->setFixedWidth(25);
     filePathEdit->setFixedWidth(250);
+
+    outputPathEdit = new QLineEdit(this);
+    outputPathLabel = new QLabel("Output file: ");
+    outputButton = new QPushButton("...", this);
+    outputButton->setFixedWidth(25);
 
     decryptButton = new QPushButton("Decrypt", this);
     decryptButton->setEnabled(false);
@@ -21,7 +27,11 @@ void EncryptDialog::chooseFile()
 {
     QString filePath = QFileDialog::getOpenFileName(this);
     if(!filePath.isEmpty())
+    {
         filePathEdit->setText(filePath);
+        if(outputPathEdit->text().isEmpty())
+            outputPathEdit->setText(filePath+" - encrypted");
+    }
 }
 
 bool EncryptDialog::readTextFile(const std::string &path, std::string &text)

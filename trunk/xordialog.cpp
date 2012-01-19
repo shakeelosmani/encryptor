@@ -14,9 +14,12 @@ XORDialog::XORDialog(QWidget *parent) : EncryptDialog(parent)
     gridLayout->addWidget(filePathLabel, 0, 0);
     gridLayout->addWidget(filePathEdit, 0, 1);
     gridLayout->addWidget(fileButton, 0, 2);
-    gridLayout->addWidget(keyLabel, 1, 0);
-    gridLayout->addWidget(keyEdit, 1, 1);
-    gridLayout->addWidget(approveLabel, 1, 2);
+    gridLayout->addWidget(outputPathLabel, 1, 0);
+    gridLayout->addWidget(outputPathEdit, 1, 1);
+    gridLayout->addWidget(outputButton, 1, 2);
+    gridLayout->addWidget(keyLabel, 2, 0);
+    gridLayout->addWidget(keyEdit, 2, 1);
+    gridLayout->addWidget(approveLabel, 2, 2);
     mainLayout->addLayout(gridLayout);
     mainLayout->addLayout(buttonLayout);
     setLayout(mainLayout);
@@ -31,7 +34,7 @@ void XORDialog::encrypt()
 {
     std::string path = filePathEdit->text().toStdString();
     std::ifstream file(path.c_str(), std::ifstream::binary);
-    std::ofstream out((path+" - encrypted."+getFileExtension(path)).c_str(), std::ofstream::binary | std::ofstream::app); //output dir and name to be made variable!
+    std::ofstream out(outputPathEdit->text().toStdString().c_str(), std::ofstream::binary | std::ofstream::app); //output dir and name to be made variable!
 
     long long fileSize = getFileSize(file);
     QElapsedTimer timer;
@@ -70,7 +73,7 @@ void XORDialog::encrypt()
 
 void XORDialog::update()
 {
-    if(!filePathEdit->text().isEmpty() && !keyEdit->text().isEmpty())
+    if(!filePathEdit->text().isEmpty() && !keyEdit->text().isEmpty() && !outputPathEdit->text().isEmpty())
     {
         encryptButton->setEnabled(true);
     }
