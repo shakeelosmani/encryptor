@@ -1,25 +1,25 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include "xordialog.h"
-#include <QtGui>
 
-class MainWidget : public QWidget
+#include "encryptdialog.h"
+#include <QMainWindow>
+
+class MainWidget : public QMainWindow
 {
     Q_OBJECT
 
     public:
-        MainWidget(QWidget *parent = 0);
+        MainWidget(QWidget* parent = 0);
         ~MainWidget();
+
+    public slots:
+        void start();
 
     private:
         QLabel* encryptorLabel;
         QComboBox* encryptionBox;
         QPushButton* startButton;
-        //QLabel* copyrightLabel;
-
-
-    public slots:
-        void start();
+        EncryptDialog* dlgEncrypt;
 };
 
 #endif // MAINWINDOW_H

@@ -1,3 +1,7 @@
+QT += core gui
+
+TARGET = encryptor
+
 HEADERS += \
     mainwidget.h \
     xordialog.h \
