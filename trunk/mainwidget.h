@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include "decryptwidget.h"
-#include "encryptwidget.h"
+#include "xordialog.h"
 #include <QtGui>
 
 class MainWidget : public QWidget
@@ -13,14 +12,14 @@ class MainWidget : public QWidget
         ~MainWidget();
 
     private:
-        QPushButton* encryptButton;
-        QPushButton* decryptButton;
-        QLabel* copyrightLabel;
+        QLabel* encryptorLabel;
+        QComboBox* encryptionBox;
+        QPushButton* startButton;
+        //QLabel* copyrightLabel;
 
 
     public slots:
-        void encrypt();
-        void decrypt();
+        void start();
 };
 
 #endif // MAINWINDOW_H
