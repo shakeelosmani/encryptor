@@ -21,6 +21,10 @@ class EncryptDialog : public QDialog
         QLabel* filePathLabel;
         QPushButton* fileButton;
 
+        QLineEdit* outputPathEdit;
+        QLabel* outputPathLabel;
+        QPushButton* outputButton;
+
         QPushButton* encryptButton;
         QPushButton* decryptButton;
 
