@@ -3,21 +3,21 @@
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 {
     setStyleSheet("QPushButton {font:bold}");
-    encryptButton = new QPushButton("Encrypt", this);
-    decryptButton = new QPushButton("Decrypt", this);
-    copyrightLabel = new QLabel("Copryright Winand. All rights preserved.");
+    encryptionBox = new QComboBox(this);
+    encryptionBox->addItem("XOR");
+    encryptionBox->addItem("Caesar");
+    encryptionBox->addItem("TEA");
+    startButton = new QPushButton("Start!", this);
+    encryptorLabel = new QLabel("Encryptor r3");
+    encryptorLabel->setStyleSheet("font:bold 30px");
+
     QVBoxLayout* mainLayout = new QVBoxLayout();
-    QHBoxLayout* buttonLayout = new QHBoxLayout();
-    buttonLayout->addWidget(encryptButton);
-    buttonLayout->addWidget(decryptButton);
-    mainLayout->addLayout(buttonLayout);
-    mainLayout->addWidget(copyrightLabel);
+    mainLayout->addWidget(encryptorLabel);
+    mainLayout->addWidget(encryptionBox);
+    mainLayout->addWidget(startButton);
     setLayout(mainLayout);
 
-
-
-    connect(encryptButton, SIGNAL(clicked()), this, SLOT(encrypt()));
-    connect(decryptButton, SIGNAL(clicked()), this, SLOT(decrypt()));
+    connect(startButton, SIGNAL(clicked()), this, SLOT(start()));
 }
 
 MainWidget::~MainWidget()
@@ -25,13 +25,11 @@ MainWidget::~MainWidget()
 
 }
 
-void MainWidget::encrypt()
+void MainWidget::start()
 {
-    encryptWidget encryptdialog;
-    encryptdialog.exec();
-}
-
-void MainWidget::decrypt()
-{
-
+    if(encryptionBox->currentText() == "XOR")
+    {
+        XORDialog* dlg = new XORDialog;
+        dlg->show();
+    }
 }

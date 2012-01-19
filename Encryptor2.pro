@@ -1,11 +1,11 @@
 HEADERS += \
     mainwidget.h \
-    encryptwidget.h \
-    decryptwidget.h
+    xordialog.h \
+    encryptdialog.h
 
 SOURCES += \
     mainwidget.cpp \
     main.cpp \
-    encryptwidget.cpp \
-    decryptwidget.cpp
+    xordialog.cpp \
+    encryptdialog.cpp
 
