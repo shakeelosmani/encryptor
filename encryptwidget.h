@@ -2,6 +2,12 @@
 #define ENCRYPTWIDGET_H
 #include <QtGui>
 #include <QDialog>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#ifdef __linux__
+#include <unistd.h>
+#endif
 
 class encryptWidget : public QDialog
 {
@@ -32,8 +38,10 @@ class encryptWidget : public QDialog
         //encryption algos
         void XOR();
         void Caesar();
-        void saveToFile(std::string path, std::string text);
-        std::string findFileExtension(const std::string& path);
+
+        bool readTextFile(const std::string& path, std::string& text);
+        void saveTextFile(const std::string& path, const std::string& text);
+        std::string getFileExtension(const std::string& path);
         long long getFileSize(std::ifstream &file);
 
 

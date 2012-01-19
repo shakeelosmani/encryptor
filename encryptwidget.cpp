@@ -2,7 +2,6 @@
 #include <fstream>
 #include <istream>
 #include <QTime>
-#include "fileutil.h"
 
 encryptWidget::encryptWidget()
 {
@@ -60,8 +59,24 @@ void encryptWidget::encrypt()
 
 }
 
+bool encryptWidget::readTextFile(const std::string &path, std::string &text)
+{
+    std::ifstream file;
+    file.open(path.c_str());
+    if(!file.is_open())
+        return false;
 
-void encryptWidget::saveToFile(std::string path, std::string text)
+    text = "";
+    char c;
+    while(!file.eof())
+    {
+        file.get(c);
+        text += c;
+    }
+    return true;
+}
+
+void encryptWidget::saveTextFile(const std::string& path, const std::string& text)
 {
     std::ofstream file2;
     file2.open(path.c_str(), std::ofstream::binary);
@@ -82,6 +97,11 @@ void encryptWidget::Caesar()
     }
 
     std::string path = filePathEdit->text().toStdString();
+    if(getFileExtension(path) != "txt")
+    {
+        QMessageBox::critical(this, "Wrong file type", "You must select a text file.");
+        return;
+    }
     std::string text;
     if(!readTextFile(path, text))
     {
@@ -95,17 +115,17 @@ void encryptWidget::Caesar()
         text[i] += key;
     }
 
-    saveToFile(path, text);
+    saveTextFile(path, text);
 }
 
-std::string encryptWidget::findFileExtension(const std::string& path)
+std::string encryptWidget::getFileExtension(const std::string& path)
 {
     if(path.find_last_of('.') != std::string::npos)
         return path.substr(path.find_last_of('.')+1);
     return "";
 }
 
-long long encryptWidget::getFileSize(std::ifstream& file)
+long long encryptWidget::getFileSize(std::ifstream& file) //why no stat()? to make sure files over 2GB are correctly interpreted on 32-bit machines.
 {
     file.seekg(0, std::ios::end);
     long long size = file.tellg();
@@ -117,7 +137,7 @@ void encryptWidget::XOR()
 {
     std::string path = filePathEdit->text().toStdString();
     std::ifstream file(path.c_str(), std::ifstream::binary);
-    std::ofstream out((path+" - encrypted."+findFileExtension(path)).c_str(), std::ofstream::binary | std::ofstream::app);
+    std::ofstream out((path+" - encrypted."+getFileExtension(path)).c_str(), std::ofstream::binary | std::ofstream::app); //output dir and name to be made variable!
 
     long long fileSize = getFileSize(file);
     QElapsedTimer timer;
@@ -150,8 +170,7 @@ void encryptWidget::XOR()
     file.close();
     out.close();
 
-
-    long long int elapsedTime = timer.elapsed();
+    unsigned long elapsedTime = timer.elapsed();
     QMessageBox::information(this, "Successfull Encryption", QString("The file was succesfully converted using the XOR algorithm.\nTime taken: %1 ms").arg(elapsedTime));
 }
 
