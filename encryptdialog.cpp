@@ -9,16 +9,18 @@ EncryptDialog::EncryptDialog(QWidget *parent) : QDialog(parent)
     filePathLabel = new QLabel("Choose file: ");
     fileButton = new QPushButton("...", this);
     fileButton->setFixedWidth(25);
-    filePathEdit->setFixedWidth(250);
+    filePathEdit->setMinimumWidth(250);
 
     outputPathEdit = new QLineEdit(this);
     outputPathLabel = new QLabel("Output file: ");
     outputButton = new QPushButton("...", this);
     outputButton->setFixedWidth(25);
+    outputPathEdit->setMinimumWidth(250);
 
     decryptButton = new QPushButton("Decrypt", this);
     decryptButton->setEnabled(false);
     connect(filePathEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
+    connect(outputPathEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
     connect(fileButton, SIGNAL(clicked()), this, SLOT(chooseFile()));
 }
 

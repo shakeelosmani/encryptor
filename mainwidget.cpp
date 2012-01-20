@@ -1,5 +1,7 @@
+// File encoding: UTF-8
 #include "mainwidget.h"
 #include "xordialog.h"
+#include "vigeneredialog.h"
 
 // Public:
     MainWidget::MainWidget(QWidget* parent)
@@ -14,6 +16,7 @@
         encryptionBox->addItem("XOR");
         encryptionBox->addItem("Caesar");
         encryptionBox->addItem("TEA");
+        encryptionBox->addItem(QString::fromUtf8("Vigenère"));
         startButton = new QPushButton("Start!", this);
         encryptorLabel = new QLabel("Encryptor r3");
         encryptorLabel->setStyleSheet("font:bold 30px");
@@ -55,6 +58,11 @@
         if(encryptionBox->currentText() == "XOR")
         {
             dlgEncrypt = new XORDialog(this);
+            dlgEncrypt->show();
+        }
+        else if(encryptionBox->currentText() == QString::fromUtf8("Vigenère"))
+        {
+            dlgEncrypt = new VigenereDialog(this);
             dlgEncrypt->show();
         }
     }
