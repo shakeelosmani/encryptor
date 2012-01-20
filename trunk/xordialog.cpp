@@ -2,6 +2,7 @@
 
 XORDialog::XORDialog(QWidget *parent) : EncryptDialog(parent)
 {
+    setWindowTitle("XOR");
     keyEdit = new QLineEdit(this);
     keyLabel = new QLabel("Key: ");
     approveLabel = new QLabel(this);
