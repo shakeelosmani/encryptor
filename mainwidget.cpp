@@ -8,7 +8,7 @@
     : QMainWindow(parent), dlgEncrypt(0)
     {
         // Some general settings for this window
-        setWindowTitle("Encryptor");
+        setWindowTitle("Vinegère");
         setStyleSheet("QPushButton {font:bold}");
 
         // Create the interface
