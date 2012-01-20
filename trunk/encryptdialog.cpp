@@ -5,6 +5,9 @@ EncryptDialog::EncryptDialog(QWidget *parent) : QDialog(parent)
     encryptButton = new QPushButton("Encrypt");
     encryptButton->setEnabled(false);
 
+    decryptButton = new QPushButton("Decrypt", this);
+    decryptButton->setEnabled(false);
+
     filePathEdit = new QLineEdit(this);
     filePathLabel = new QLabel("Choose file: ");
     fileButton = new QPushButton("...", this);
@@ -17,8 +20,6 @@ EncryptDialog::EncryptDialog(QWidget *parent) : QDialog(parent)
     outputButton->setFixedWidth(25);
     outputPathEdit->setMinimumWidth(250);
 
-    decryptButton = new QPushButton("Decrypt", this);
-    decryptButton->setEnabled(false);
     connect(filePathEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
     connect(outputPathEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
     connect(encryptButton, SIGNAL(clicked()), this, SLOT(encrypt()));
@@ -87,7 +88,7 @@ bool EncryptDialog::isValidFilePath(const QString& path)
 
 bool EncryptDialog::isValidOutputPath(const QString& path)
 {
-    int pos = path.lastIndexOf('/');
+    int pos = path.lastIndexOf('/'); //we need to cut the file name out
     QString dirpath = path.left(pos+1);
     QDir dir(dirpath);
     return dir.exists(); //no static func avaiblable, sadly

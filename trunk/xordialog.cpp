@@ -33,41 +33,27 @@ void XORDialog::encrypt()
 {
     std::string path = filePathEdit->text().toStdString();
     std::ifstream file(path.c_str(), std::ifstream::binary);
-    std::ofstream out(outputPathEdit->text().toStdString().c_str(), std::ofstream::binary | std::ofstream::app); //output dir and name to be made variable!
+    std::ofstream out(outputPathEdit->text().toStdString().c_str(), std::ofstream::binary); //output dir and name to be made variable!
 
     if(!file)
         QMessageBox::critical(this, "Error while opening the file", "The file "+filePathEdit->text()+" couldn't be opened for reading!");
     if(!out)
         QMessageBox::critical(this, "Error while opening the file", "The file "+outputPathEdit->text()+" couldn't be opened for writing!");
 
-    long long fileSize = getFileSize(file);
     QElapsedTimer timer;
     timer.start();
-    std::string key = keyEdit->text().toStdString();
+    const std::string key = keyEdit->text().toStdString();
+    std::string::const_iterator keyChr = key.begin();
 
-    while(fileSize > 0)
+    // Start the encryption
+    char chr;
+    while(file.get(chr) && out)
     {
-        long blocksize = 5000000; //standard blocksize (50 megabyte (ridiculously large, i know!) can be made variable later on)
-        if(fileSize < 5000000) //the total size is smaller, we obviously change it to the full file size!
-            blocksize = fileSize;
-        fileSize -= 5000000; //decrement the total size with 50 mega each time
-
-        char* buffer = new char[blocksize];
-        file.read(buffer, blocksize);
-
-        //start encryption
-        unsigned i = 0;
-        for(long long j = 0; j < blocksize; j++)
-        {
-            i++;
-            if(i > key.size())
-                i = 0;
-            buffer[j] = key[i] ^ buffer[j];
-        }
-
-        out.write(buffer, blocksize);
-        delete[] buffer;
+        out<<char(chr ^ *keyChr);
+        if(++keyChr == key.end())
+            keyChr = key.begin();
     }
+
     file.close();
     out.close();
 
