@@ -10,6 +10,7 @@ class XORDialog : public EncryptDialog
 
     public slots:
         void encrypt();
+        void decrypt();
         void update();
         void testKey();
 

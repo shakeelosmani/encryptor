@@ -13,6 +13,7 @@ class EncryptDialog : public QDialog
 
     public slots:
         virtual void encrypt() = 0;
+        virtual void decrypt() = 0;
         virtual void update() = 0;
         void chooseFile();
 
@@ -32,6 +33,8 @@ class EncryptDialog : public QDialog
         void saveTextFile(const std::string& path, const std::string& text);
         std::string getFileExtension(const std::string& path);
         long long getFileSize(std::ifstream &file);
+        bool isValidFilePath(const QString& path);
+        bool isValidOutputPath(const QString& path);
 };
 
 #endif // ENCRYPTDIALOG_H
