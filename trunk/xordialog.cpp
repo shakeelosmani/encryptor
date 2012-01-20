@@ -25,8 +25,6 @@ XORDialog::XORDialog(QWidget *parent) : EncryptDialog(parent)
     mainLayout->addLayout(buttonLayout);
     setLayout(mainLayout);
 
-    connect(encryptButton, SIGNAL(clicked()), this, SLOT(encrypt()));
-    connect(decryptButton, SIGNAL(clicked()), this, SLOT(encrypt()));
     connect(keyEdit, SIGNAL(textChanged(QString)), this, SLOT(testKey()));
     connect(keyEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
 }
@@ -36,6 +34,11 @@ void XORDialog::encrypt()
     std::string path = filePathEdit->text().toStdString();
     std::ifstream file(path.c_str(), std::ifstream::binary);
     std::ofstream out(outputPathEdit->text().toStdString().c_str(), std::ofstream::binary | std::ofstream::app); //output dir and name to be made variable!
+
+    if(!file)
+        QMessageBox::critical(this, "Error while opening the file", "The file "+filePathEdit->text()+" couldn't be opened for reading!");
+    if(!out)
+        QMessageBox::critical(this, "Error while opening the file", "The file "+outputPathEdit->text()+" couldn't be opened for writing!");
 
     long long fileSize = getFileSize(file);
     QElapsedTimer timer;
@@ -74,12 +77,17 @@ void XORDialog::encrypt()
 
 void XORDialog::update()
 {
-    if(!filePathEdit->text().isEmpty() && !keyEdit->text().isEmpty() && !outputPathEdit->text().isEmpty())
+    if(isValidFilePath(filePathEdit->text()) &&
+       isValidOutputPath(outputPathEdit->text()) &&
+       !keyEdit->text().isEmpty())
     {
         encryptButton->setEnabled(true);
+        decryptButton->setEnabled(true);
+        return;
     }
-    else
-        encryptButton->setEnabled(false);
+
+    decryptButton->setEnabled(false);
+    encryptButton->setEnabled(false);
 }
 
 void XORDialog::testKey()
@@ -110,4 +118,9 @@ void XORDialog::testKey()
         approveLabel->setText("Very Strong");
         approveLabel->setStyleSheet("color:green; font:bold");
     }
+}
+
+void XORDialog::decrypt()
+{
+    encrypt();
 }

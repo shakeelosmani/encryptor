@@ -26,8 +26,6 @@
         mainLayout->addLayout(buttonLayout);
         setLayout(mainLayout);
 
-        connect(encryptButton, SIGNAL(clicked()), this, SLOT(encrypt()));
-        connect(decryptButton, SIGNAL(clicked()), this, SLOT(decrypt()));
         connect(keyEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
     }
 
@@ -130,6 +128,6 @@
 
     void VigenereDialog::update()
     {
-        encryptButton->setEnabled(!filePathEdit->text().isEmpty() && !keyEdit->text().isEmpty() && !outputPathEdit->text().isEmpty());
-        decryptButton->setEnabled(!filePathEdit->text().isEmpty() && !keyEdit->text().isEmpty() && !outputPathEdit->text().isEmpty());
+        encryptButton->setEnabled(isValidFilePath(filePathEdit->text()) && !keyEdit->text().isEmpty() && isValidOutputPath(outputPathEdit->text()));
+        decryptButton->setEnabled(isValidFilePath(filePathEdit->text()) && !keyEdit->text().isEmpty() && isValidOutputPath(outputPathEdit->text()));
     }

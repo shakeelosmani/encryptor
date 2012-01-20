@@ -21,6 +21,8 @@ EncryptDialog::EncryptDialog(QWidget *parent) : QDialog(parent)
     decryptButton->setEnabled(false);
     connect(filePathEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
     connect(outputPathEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
+    connect(encryptButton, SIGNAL(clicked()), this, SLOT(encrypt()));
+    connect(decryptButton, SIGNAL(clicked()), this, SLOT(decrypt()));
     connect(fileButton, SIGNAL(clicked()), this, SLOT(chooseFile()));
 }
 
@@ -76,5 +78,18 @@ long long EncryptDialog::getFileSize(std::ifstream& file) //why no stat()? to ma
     long long size = file.tellg();
     file.seekg(0);
     return size;
+}
+
+bool EncryptDialog::isValidFilePath(const QString& path)
+{
+    return QFile::exists(path);
+}
+
+bool EncryptDialog::isValidOutputPath(const QString& path)
+{
+    int pos = path.lastIndexOf('/');
+    QString dirpath = path.left(pos+1);
+    QDir dir(dirpath);
+    return dir.exists(); //no static func avaiblable, sadly
 }
 
