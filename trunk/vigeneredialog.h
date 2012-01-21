@@ -8,7 +8,7 @@ class VigenereDialog : public EncryptDialog
     Q_OBJECT
 
     public:
-        explicit VigenereDialog(QWidget* parent = 0);
+        VigenereDialog(QWidget* parent = 0);
 
     public slots:
         void encrypt();

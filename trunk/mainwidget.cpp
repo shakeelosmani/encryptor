@@ -2,13 +2,14 @@
 #include "mainwidget.h"
 #include "xordialog.h"
 #include "vigeneredialog.h"
+#include "caesardialog.h"
 
 // Public:
     MainWidget::MainWidget(QWidget* parent)
     : QMainWindow(parent), dlgEncrypt(0)
     {
         // Some general settings for this window
-        setWindowTitle("Vinegère");
+        setWindowTitle("Encryptor");
         setStyleSheet("QPushButton {font:bold}");
 
         // Create the interface
@@ -63,6 +64,11 @@
         else if(encryptionBox->currentText() == QString::fromUtf8("Vigenère"))
         {
             dlgEncrypt = new VigenereDialog(this);
+            dlgEncrypt->show();
+        }
+        else if(encryptionBox->currentText() == "Caesar")
+        {
+            dlgEncrypt = new CaesarDialog(this);
             dlgEncrypt->show();
         }
     }
