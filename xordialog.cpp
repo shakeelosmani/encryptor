@@ -29,36 +29,21 @@ XORDialog::XORDialog(QWidget *parent) : EncryptDialog(parent)
     connect(keyEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
 }
 
-void XORDialog::encrypt()
+std::string XORDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
 {
-    std::string path = filePathEdit->text().toStdString();
-    std::ifstream file(path.c_str(), std::ifstream::binary);
-    std::ofstream out(outputPathEdit->text().toStdString().c_str(), std::ofstream::binary); //output dir and name to be made variable!
-
-    if(!file)
-        QMessageBox::critical(this, "Error while opening the file", "The file "+filePathEdit->text()+" couldn't be opened for reading!");
-    if(!out)
-        QMessageBox::critical(this, "Error while opening the file", "The file "+outputPathEdit->text()+" couldn't be opened for writing!");
-
-    QElapsedTimer timer;
-    timer.start();
     const std::string key = keyEdit->text().toStdString();
     std::string::const_iterator keyChr = key.begin();
 
     // Start the encryption
     char chr;
-    while(file.get(chr) && out)
+    while(in.get(chr) && out)
     {
-        out<<char(chr ^ *keyChr);
+        out<<char(chr ^ (*keyChr));
         if(++keyChr == key.end())
             keyChr = key.begin();
     }
 
-    file.close();
-    out.close();
-
-    unsigned long elapsedTime = timer.elapsed();
-    QMessageBox::information(this, "Successfull Encryption", QString("The file was succesfully converted using the XOR algorithm.\nTime taken: %1 ms").arg(elapsedTime));
+    return "XOR";
 }
 
 void XORDialog::update()
@@ -106,7 +91,7 @@ void XORDialog::testKey()
     }
 }
 
-void XORDialog::decrypt()
+std::string XORDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
 {
-    encrypt();
+    return encryptalgo(in, out);
 }

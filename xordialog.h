@@ -9,10 +9,12 @@ class XORDialog : public EncryptDialog
         XORDialog(QWidget *parent = 0);
 
     public slots:
-        void encrypt();
-        void decrypt();
         void update();
         void testKey();
+
+    protected:
+        std::string encryptalgo(std::ifstream& in, std::ofstream& out);
+        std::string decryptalgo(std::ifstream& in, std::ofstream& out);
 
     private:
         QLabel* keyLabel;
