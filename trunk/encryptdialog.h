@@ -11,9 +11,12 @@ class EncryptDialog : public QDialog
     public:
         EncryptDialog(QWidget *parent = 0);
 
+        virtual std::string encryptalgo(std::ifstream& in, std::ofstream& out) = 0;
+        virtual std::string decryptalgo(std::ifstream& in, std::ofstream& out) = 0;
+
     public slots:
-        virtual void encrypt() = 0;
-        virtual void decrypt() = 0;
+        void encrypt();
+        void decrypt();
         virtual void update() = 0;
         void chooseFile();
 
