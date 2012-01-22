@@ -3,6 +3,7 @@
 #include <QtGui>
 #include <QDialog>
 #include <QTime>
+#include <QFile>
 #include <fstream>
 
 class EncryptDialog : public QDialog
