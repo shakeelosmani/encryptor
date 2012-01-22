@@ -22,6 +22,8 @@ class EncryptDialog : public QDialog
         void chooseFile();
 
     protected:
+        void crypt(bool ENCRYPT);
+
         QLineEdit* filePathEdit;
         QLabel* filePathLabel;
         QPushButton* fileButton;
