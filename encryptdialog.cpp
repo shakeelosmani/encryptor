@@ -3,6 +3,7 @@
 EncryptDialog::EncryptDialog(QWidget *parent, const QString& algorithmName)
     : QDialog(parent), algorithmName(algorithmName)
 {
+    setWindowTitle(algorithmName);
     encryptButton = new QPushButton("Encrypt");
     encryptButton->setEnabled(false);
 
