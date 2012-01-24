@@ -1,6 +1,7 @@
 #include "encryptdialog.h"
 
-EncryptDialog::EncryptDialog(QWidget *parent) : QDialog(parent)
+EncryptDialog::EncryptDialog(QWidget *parent, const QString& algorithmName)
+    : QDialog(parent), algorithmName(algorithmName)
 {
     encryptButton = new QPushButton("Encrypt");
     encryptButton->setEnabled(false);
@@ -37,7 +38,7 @@ void EncryptDialog::decrypt()
     crypt(false);
 }
 
-void EncryptDialog::crypt(bool ENCRYPT)
+void EncryptDialog::crypt(const bool& ENCRYPT)
 {
     // Start a timer to see how long it takes
     QElapsedTimer timer;
@@ -60,11 +61,10 @@ void EncryptDialog::crypt(bool ENCRYPT)
         return;
     }
 
-    std::string algorithmname;
     if(ENCRYPT)
-        algorithmname = encryptalgo(in, out);
+        encryptalgo(in, out);
     else
-        algorithmname = decryptalgo(in, out);
+        decryptalgo(in, out);
 
     // Check if everything went well
     if(!in.eof())
@@ -85,9 +85,9 @@ void EncryptDialog::crypt(bool ENCRYPT)
     if(QFile::rename(outputPathEdit->text() + " - temp", outputPathEdit->text()))
     {
         if(ENCRYPT)
-            QMessageBox::information(this, "Successfull Encryption", QString("The file was succesfully encrypted using the %1 algorithm.\n").arg(algorithmname.c_str()) + QString("Time taken: %1 ms").arg(timer.elapsed()));
+            QMessageBox::information(this, "Successfull Encryption", QString("The file was succesfully encrypted using the %1 algorithm.\nTime taken: %2 ms").arg(algorithmName).arg(timer.elapsed()));
         else
-            QMessageBox::information(this, "Successfull Decryption", QString("The file was succesfully decrypted using the %1 algorithm.\n").arg(algorithmname.c_str()) + QString("Time taken: %1 ms").arg(timer.elapsed()));
+            QMessageBox::information(this, "Successfull Decryption", QString("The file was succesfully decrypted using the %1 algorithm.\nTime taken: %2 ms").arg(algorithmName).arg(timer.elapsed()));
     }
 }
 
@@ -100,33 +100,6 @@ void EncryptDialog::chooseFile()
         if(outputPathEdit->text().isEmpty())
             outputPathEdit->setText(filePath+" - encrypted");
     }
-}
-
-bool EncryptDialog::readTextFile(const std::string &path, std::string &text)
-{
-    std::ifstream file;
-    file.open(path.c_str());
-    if(!file.is_open())
-        return false;
-
-    text = "";
-    char c;
-    while(!file.eof())
-    {
-        file.get(c);
-        text += c;
-    }
-    return true;
-}
-
-void EncryptDialog::saveTextFile(const std::string& path, const std::string& text)
-{
-    std::ofstream file2;
-    file2.open(path.c_str(), std::ofstream::binary);
-    if(!file2.is_open())
-        return;
-    file2<<text;
-    file2.close();
 }
 
 std::string EncryptDialog::getFileExtension(const std::string& path)

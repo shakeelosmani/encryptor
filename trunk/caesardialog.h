@@ -4,6 +4,8 @@
 
 class CaesarDialog : public EncryptDialog
 {
+    Q_OBJECT
+
     public:
         CaesarDialog(QWidget* parent = 0);
 
@@ -11,8 +13,8 @@ class CaesarDialog : public EncryptDialog
         void update();
 
     protected:
-        std::string encryptalgo(std::ifstream& in, std::ofstream& out);
-        std::string decryptalgo(std::ifstream& in, std::ofstream& out);
+        void encryptalgo(std::ifstream& in, std::ofstream& out);
+        void decryptalgo(std::ifstream& in, std::ofstream& out);
 
     private:
         QLabel* keyLabel;

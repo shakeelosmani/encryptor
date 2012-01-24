@@ -1,6 +1,7 @@
 #include "caesardialog.h"
 
-CaesarDialog::CaesarDialog(QWidget* parent) : EncryptDialog(parent)
+CaesarDialog::CaesarDialog(QWidget* parent)
+    : EncryptDialog(parent, "Caesar")
 {
     setWindowTitle("Caesar");
     keyEdit = new QLineEdit(this);
@@ -27,7 +28,7 @@ CaesarDialog::CaesarDialog(QWidget* parent) : EncryptDialog(parent)
 }
 
 // Public slots:
-std::string CaesarDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
+void CaesarDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
 {
     // Get the key
     bool converted;
@@ -41,10 +42,9 @@ std::string CaesarDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
     {
         out<<char(chr + key);
     }
-    return "Caesar";
 }
 
-std::string CaesarDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
+void CaesarDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
 {
     // Get the key
     bool converted;
@@ -58,7 +58,6 @@ std::string CaesarDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
     {
         out<<char(chr - key);
     }
-    return "Caesar";
 }
 
 void CaesarDialog::update()

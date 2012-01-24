@@ -13,8 +13,8 @@ class XORDialog : public EncryptDialog
         void testKey();
 
     protected:
-        std::string encryptalgo(std::ifstream& in, std::ofstream& out);
-        std::string decryptalgo(std::ifstream& in, std::ofstream& out);
+        void encryptalgo(std::ifstream& in, std::ofstream& out);
+        void decryptalgo(std::ifstream& in, std::ofstream& out);
 
     private:
         QLabel* keyLabel;

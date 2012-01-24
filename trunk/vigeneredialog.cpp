@@ -3,9 +3,9 @@
 
 // Public:
     VigenereDialog::VigenereDialog(QWidget* parent)
-    : EncryptDialog(parent)
+    : EncryptDialog(parent, QString::fromUtf8("Vigenère"))
     {
-        setWindowTitle("Vigen�re");
+        setWindowTitle(QString::fromUtf8("Vigenère"));
         keyEdit = new QLineEdit(this);
         keyLabel = new QLabel("Key: ");
 
@@ -30,7 +30,7 @@
     }
 
 // Public slots:
-    std::string VigenereDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
+    void VigenereDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
     {
         // Get the key
         const std::string key = keyEdit->text().toStdString();
@@ -44,10 +44,9 @@
             if(++keyChr == key.end())
                 keyChr = key.begin();
         }
-        return "Vigenere";
     }
 
-    std::string VigenereDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
+    void VigenereDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
     {
         // Get the key
         const std::string key = keyEdit->text().toStdString();
@@ -61,7 +60,6 @@
             if(++keyChr == key.end())
                 keyChr = key.begin();
         }
-        return "Vigenere";
     }
 
     void VigenereDialog::update()

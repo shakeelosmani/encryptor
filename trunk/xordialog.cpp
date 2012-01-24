@@ -1,6 +1,7 @@
 #include "xordialog.h"
 
-XORDialog::XORDialog(QWidget *parent) : EncryptDialog(parent)
+XORDialog::XORDialog(QWidget *parent)
+    : EncryptDialog(parent, "XOR")
 {
     setWindowTitle("XOR");
     keyEdit = new QLineEdit(this);
@@ -29,7 +30,7 @@ XORDialog::XORDialog(QWidget *parent) : EncryptDialog(parent)
     connect(keyEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
 }
 
-std::string XORDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
+void XORDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
 {
     const std::string key = keyEdit->text().toStdString();
     std::string::const_iterator keyChr = key.begin();
@@ -42,8 +43,6 @@ std::string XORDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
         if(++keyChr == key.end())
             keyChr = key.begin();
     }
-
-    return "XOR";
 }
 
 void XORDialog::update()
@@ -91,7 +90,7 @@ void XORDialog::testKey()
     }
 }
 
-std::string XORDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
+void XORDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
 {
     return encryptalgo(in, out);
 }
