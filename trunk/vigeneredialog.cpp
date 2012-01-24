@@ -5,7 +5,6 @@
     VigenereDialog::VigenereDialog(QWidget* parent)
     : EncryptDialog(parent, QString::fromUtf8("Vigenère"))
     {
-        setWindowTitle(QString::fromUtf8("Vigenère"));
         keyEdit = new QLineEdit(this);
         keyLabel = new QLabel("Key: ");
 

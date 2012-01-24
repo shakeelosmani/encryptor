@@ -3,7 +3,6 @@
 CaesarDialog::CaesarDialog(QWidget* parent)
     : EncryptDialog(parent, "Caesar")
 {
-    setWindowTitle("Caesar");
     keyEdit = new QLineEdit(this);
     keyLabel = new QLabel("Key: ");
 
@@ -50,7 +49,10 @@ void CaesarDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
     bool converted;
     const int key = keyEdit->text().toInt(&converted);
     if(!converted)
+    {
         QMessageBox::critical(this, "Wrong key", "The key for the Caesar algorithm has to be an integer");
+        return;
+    }
 
     // Start the encryption
     char chr;
