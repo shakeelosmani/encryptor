@@ -10,10 +10,10 @@ class EncryptDialog : public QDialog
 {
     Q_OBJECT
     public:
-        EncryptDialog(QWidget *parent = 0);
+        EncryptDialog(QWidget *parent = 0, const QString& algorithmName = "unknown");
 
-        virtual std::string encryptalgo(std::ifstream& in, std::ofstream& out) = 0;
-        virtual std::string decryptalgo(std::ifstream& in, std::ofstream& out) = 0;
+        virtual void encryptalgo(std::ifstream& in, std::ofstream& out) = 0;
+        virtual void decryptalgo(std::ifstream& in, std::ofstream& out) = 0;
 
     public slots:
         void encrypt();
@@ -22,7 +22,7 @@ class EncryptDialog : public QDialog
         void chooseFile();
 
     protected:
-        void crypt(bool ENCRYPT);
+        void crypt(const bool& ENCRYPT);
 
         QLineEdit* filePathEdit;
         QLabel* filePathLabel;
@@ -35,8 +35,8 @@ class EncryptDialog : public QDialog
         QPushButton* encryptButton;
         QPushButton* decryptButton;
 
-        bool readTextFile(const std::string& path, std::string& text);
-        void saveTextFile(const std::string& path, const std::string& text);
+        QString algorithmName;
+
         std::string getFileExtension(const std::string& path);
         long long getFileSize(std::ifstream &file);
         bool isValidFilePath(const QString& path);
