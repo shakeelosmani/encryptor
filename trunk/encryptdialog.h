@@ -20,6 +20,7 @@ class EncryptDialog : public QDialog
         void decrypt();
         virtual void update() = 0;
         void chooseFile();
+        void chooseOutput();
 
     protected:
         void crypt(const bool& ENCRYPT);
@@ -37,10 +38,10 @@ class EncryptDialog : public QDialog
 
         QString algorithmName;
 
-        std::string getFileExtension(const std::string& path);
-        long long getFileSize(std::ifstream &file);
-        bool isValidFilePath(const QString& path);
-        bool isValidOutputPath(const QString& path);
+        QString getFileExtension(const QString& path);          // Returns the extension, including the . (e.g. ".avi" is returned, not only "avi")
+        long long getFileSize(std::ifstream &file);             // Get the size of a file
+        bool isValidFilePath(const QString& path);              // Check whether the given path is valid (i.e. it exists)
+        bool isValidOutputPath(const QString& path);            // Check whether the given output path is valid (i.e. the directory exists)
 };
 
 #endif // ENCRYPTDIALOG_H

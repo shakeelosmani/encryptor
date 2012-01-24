@@ -19,7 +19,7 @@
         encryptionBox->addItem("TEA");
         encryptionBox->addItem(QString::fromUtf8("Vigenère"));
         startButton = new QPushButton("Start!", this);
-        encryptorLabel = new QLabel("Encryptor r3");
+        encryptorLabel = new QLabel("Encryptor");
         encryptorLabel->setStyleSheet("font:bold 30px");
 
         // Create the central widget
