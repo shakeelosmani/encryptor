@@ -26,6 +26,7 @@ EncryptDialog::EncryptDialog(QWidget *parent, const QString& algorithmName)
     connect(encryptButton, SIGNAL(clicked()), this, SLOT(encrypt()));
     connect(decryptButton, SIGNAL(clicked()), this, SLOT(decrypt()));
     connect(fileButton, SIGNAL(clicked()), this, SLOT(chooseFile()));
+    connect(outputButton, SIGNAL(clicked()), this, SLOT(chooseOutput()));
 }
 
 void EncryptDialog::encrypt()
@@ -98,14 +99,25 @@ void EncryptDialog::chooseFile()
     {
         filePathEdit->setText(filePath);
         if(outputPathEdit->text().isEmpty())
-            outputPathEdit->setText(filePath+" - encrypted");
+        {
+            const QString extension = getFileExtension(filePath);
+            outputPathEdit->setText(filePath.left(filePath.size() - extension.size()) + " - encrypted" + extension);
+        }
     }
 }
 
-std::string EncryptDialog::getFileExtension(const std::string& path)
+void EncryptDialog::chooseOutput()
 {
-    if(path.find_last_of('.') != std::string::npos)
-        return path.substr(path.find_last_of('.')+1);
+    QString filePath = QFileDialog::getOpenFileName(this);
+    if(!filePath.isEmpty())
+        outputPathEdit->setText(filePath);
+}
+
+QString EncryptDialog::getFileExtension(const QString& path)
+{
+    const int lastDot = path.lastIndexOf('.');
+    if(lastDot != -1)
+        return path.right(path.size() - lastDot);
     return "";
 }
 

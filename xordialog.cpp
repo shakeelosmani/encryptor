@@ -47,17 +47,9 @@ void XORDialog::encryptalgo(std::ifstream& in, std::ofstream& out)
 
 void XORDialog::update()
 {
-    if(isValidFilePath(filePathEdit->text()) &&
-       isValidOutputPath(outputPathEdit->text()) &&
-       !keyEdit->text().isEmpty())
-    {
-        encryptButton->setEnabled(true);
-        decryptButton->setEnabled(true);
-        return;
-    }
-
-    decryptButton->setEnabled(false);
-    encryptButton->setEnabled(false);
+    const bool enable = isValidFilePath(filePathEdit->text()) && isValidOutputPath(outputPathEdit->text()) && !keyEdit->text().isEmpty();
+    encryptButton->setEnabled(enable);
+    decryptButton->setEnabled(enable);
 }
 
 void XORDialog::testKey()

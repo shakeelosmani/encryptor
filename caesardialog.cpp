@@ -62,7 +62,8 @@ void CaesarDialog::decryptalgo(std::ifstream& in, std::ofstream& out)
 
 void CaesarDialog::update()
 {
-    encryptButton->setEnabled(isValidFilePath(filePathEdit->text()) && !keyEdit->text().isEmpty() && isValidOutputPath(outputPathEdit->text()));
-    decryptButton->setEnabled(isValidFilePath(filePathEdit->text()) && !keyEdit->text().isEmpty() && isValidOutputPath(outputPathEdit->text()));
+    const bool enable = isValidFilePath(filePathEdit->text()) && !keyEdit->text().isEmpty() && isValidOutputPath(outputPathEdit->text());
+    encryptButton->setEnabled(enable);
+    decryptButton->setEnabled(enable);
 }
 
