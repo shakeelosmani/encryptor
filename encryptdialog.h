@@ -5,15 +5,13 @@
 #include <QTime>
 #include <QFile>
 #include <fstream>
+#include "encryptionalgorithm.h"
 
 class EncryptDialog : public QDialog
 {
     Q_OBJECT
     public:
         EncryptDialog(QWidget *parent = 0, const QString& algorithmName = "unknown");
-
-        virtual void encryptalgo(std::ifstream& in, std::ofstream& out) = 0;
-        virtual void decryptalgo(std::ifstream& in, std::ofstream& out) = 0;
 
     public slots:
         void encrypt();
@@ -24,6 +22,7 @@ class EncryptDialog : public QDialog
 
     protected:
         void crypt(const bool& ENCRYPT);
+        EncryptionAlgorithm* algorithm;
 
         QLineEdit* filePathEdit;
         QLabel* filePathLabel;

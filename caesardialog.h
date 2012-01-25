@@ -1,5 +1,6 @@
 #ifndef CAESARDIALOG_H
 #define CAESARDIALOG_H
+#include "caesar.h"
 #include "encryptdialog.h"
 
 class CaesarDialog : public EncryptDialog
@@ -11,10 +12,6 @@ class CaesarDialog : public EncryptDialog
 
     public slots:
         void update();
-
-    protected:
-        void encryptalgo(std::ifstream& in, std::ofstream& out);
-        void decryptalgo(std::ifstream& in, std::ofstream& out);
 
     private:
         QLabel* keyLabel;

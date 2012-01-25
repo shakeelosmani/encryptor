@@ -1,6 +1,8 @@
 #ifndef XORDIALOG_H
 #define XORDIALOG_H
 #include "encryptdialog.h"
+#include "xor.h"
+
 
 class XORDialog : public EncryptDialog
 {
@@ -11,10 +13,6 @@ class XORDialog : public EncryptDialog
     public slots:
         void update();
         void testKey();
-
-    protected:
-        void encryptalgo(std::ifstream& in, std::ofstream& out);
-        void decryptalgo(std::ifstream& in, std::ofstream& out);
 
     private:
         QLabel* keyLabel;

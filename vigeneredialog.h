@@ -1,6 +1,6 @@
 #ifndef VIGENEREDIALOG_H
 #define VIGENEREDIALOG_H
-
+#include "vigenere.h"
 #include "encryptdialog.h"
 
 class VigenereDialog : public EncryptDialog
@@ -12,10 +12,6 @@ class VigenereDialog : public EncryptDialog
 
     public slots:
         void update();
-
-    protected:
-        void encryptalgo(std::ifstream& in, std::ofstream& out);
-        void decryptalgo(std::ifstream& in, std::ofstream& out);
 
     private:
         QLabel* keyLabel;
