@@ -64,9 +64,9 @@ void EncryptDialog::crypt(const bool& ENCRYPT)
     }
 
     if(ENCRYPT)
-        encryptalgo(in, out);
+        algorithm->encrypt(in, out);
     else
-        decryptalgo(in, out);
+        algorithm->decrypt(in, out);
 
     // Check if everything went well
     if(!in.eof())
