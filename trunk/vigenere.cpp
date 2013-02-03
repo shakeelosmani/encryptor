@@ -23,7 +23,7 @@ void Vigenere::encrypt(std::ifstream &in, std::ofstream &out)
     char chr;
     while(in.get(chr) && out)
     {
-        out<<char(chr ^ (*keyChr));
+        out<<char(chr + (*keyChr));
         if(++keyChr == key.end())
             keyChr = key.begin();
     }
