@@ -7,11 +7,7 @@ HEADERS += \
     xordialog.h \
     encryptdialog.h \
     vigeneredialog.h \
-    caesardialog.h \
-    encryptionalgorithm.h \
-    xor.h \
-    vigenere.h \
-    caesar.h
+    caesardialog.h
 
 SOURCES += \
     mainwidget.cpp \
@@ -19,8 +15,4 @@ SOURCES += \
     xordialog.cpp \
     encryptdialog.cpp \
     vigeneredialog.cpp \
-    caesardialog.cpp \
-    encryptionalgorithm.cpp \
-    xor.cpp \
-    vigenere.cpp \
-    caesar.cpp
+    caesardialog.cpp

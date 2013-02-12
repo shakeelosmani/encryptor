@@ -3,8 +3,6 @@
 XORDialog::XORDialog(QWidget *parent)
     : EncryptDialog(parent, "XOR")
 {
-    algorithm = new XOR;
-
     keyEdit = new QLineEdit(this);
     keyLabel = new QLabel("Key: ");
     approveLabel = new QLabel(this);
@@ -31,16 +29,32 @@ XORDialog::XORDialog(QWidget *parent)
     connect(keyEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
 }
 
+void XORDialog::encrypt(std::ifstream& in, std::ofstream& out)
+{
+    const std::string key = keyEdit->text().toStdString();
+    std::string::const_iterator keyChr = key.begin();
+
+    // Start the encryption
+    char chr;
+    while(in.get(chr) && out)
+    {
+        out << static_cast<char>(chr ^ (*keyChr));
+        if(++keyChr == key.end())
+            keyChr = key.begin();
+    }
+}
+
+void XORDialog::decrypt(std::ifstream &in, std::ofstream &out)
+{
+    // XOR decryption is the same as the encryption
+    encrypt(in, out);
+}
+
 void XORDialog::update()
 {
     const bool enable = isValidFilePath(filePathEdit->text()) && isValidOutputPath(outputPathEdit->text()) && !keyEdit->text().isEmpty();
     encryptButton->setEnabled(enable);
     decryptButton->setEnabled(enable);
-    if(enable)
-    {
-        delete algorithm;
-        algorithm = new XOR(keyEdit->text().toStdString());
-    }
 }
 
 void XORDialog::testKey()
