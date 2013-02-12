@@ -1,11 +1,10 @@
 #include "caesardialog.h"
 
 CaesarDialog::CaesarDialog(QWidget* parent)
-    : EncryptDialog(parent, "Caesar")
+: EncryptDialog(parent, "Caesar")
 {
-    algorithm = new Caesar;
-
     keyEdit = new QLineEdit(this);
+    keyEdit->setMaxLength(1);
     keyLabel = new QLabel("Key: ");
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
@@ -28,15 +27,25 @@ CaesarDialog::CaesarDialog(QWidget* parent)
     connect(keyEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
 }
 
-void CaesarDialog::update()
+void CaesarDialog::encrypt(std::ifstream &in, std::ofstream &out)
 {
-    const bool enable = isValidFilePath(filePathEdit->text()) && isValidOutputPath(outputPathEdit->text());
-    encryptButton->setEnabled(enable);
-    decryptButton->setEnabled(enable);
-    if(enable)
-    {
-        delete algorithm;
-        algorithm = new Caesar;
-    }
+    const char key = keyEdit->text().at(0).toAscii();
+    char chr;
+    while(in.get(chr) && out)
+        out << static_cast<char>(chr + key);
 }
 
+void CaesarDialog::decrypt(std::ifstream &in, std::ofstream &out)
+{
+    const char key = keyEdit->text().at(0).toAscii();
+    char chr;
+    while(in.get(chr) && out)
+        out << static_cast<char>(chr - key);
+}
+
+void CaesarDialog::update()
+{
+    const bool enable = !keyEdit->text().isEmpty() && isValidFilePath(filePathEdit->text()) && isValidOutputPath(outputPathEdit->text());
+    encryptButton->setEnabled(enable);
+    decryptButton->setEnabled(enable);
+}

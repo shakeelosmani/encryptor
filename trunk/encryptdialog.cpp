@@ -1,7 +1,7 @@
 #include "encryptdialog.h"
 
 EncryptDialog::EncryptDialog(QWidget *parent, const QString& algorithmName)
-    : QDialog(parent), algorithmName(algorithmName)
+: QDialog(parent), algorithmName(algorithmName)
 {
     setWindowTitle(algorithmName);
     encryptButton = new QPushButton("Encrypt");
@@ -24,21 +24,17 @@ EncryptDialog::EncryptDialog(QWidget *parent, const QString& algorithmName)
 
     connect(filePathEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
     connect(outputPathEdit, SIGNAL(textChanged(QString)), this, SLOT(update()));
-    connect(encryptButton, SIGNAL(clicked()), this, SLOT(encrypt()));
-    connect(decryptButton, SIGNAL(clicked()), this, SLOT(decrypt()));
+    connect(encryptButton, SIGNAL(clicked()), this, SLOT(doEncrypt()));
+    connect(decryptButton, SIGNAL(clicked()), this, SLOT(doDecrypt()));
     connect(fileButton, SIGNAL(clicked()), this, SLOT(chooseFile()));
     connect(outputButton, SIGNAL(clicked()), this, SLOT(chooseOutput()));
 }
 
-void EncryptDialog::encrypt()
-{
-    crypt(true);
-}
+void EncryptDialog::doEncrypt()
+{ crypt(true); }
 
-void EncryptDialog::decrypt()
-{
-    crypt(false);
-}
+void EncryptDialog::doDecrypt()
+{ crypt(false); }
 
 void EncryptDialog::crypt(const bool& ENCRYPT)
 {
@@ -47,6 +43,7 @@ void EncryptDialog::crypt(const bool& ENCRYPT)
     timer.start();
     const std::string filePath = filePathEdit->text().toStdString();
     const std::string outputPath = outputPathEdit->text().toStdString();
+
     // Open the files
     std::ifstream in(filePath.c_str(), std::ios::binary);
     std::ofstream out((outputPath + " - temp").c_str(), std::ios::binary);
@@ -64,9 +61,9 @@ void EncryptDialog::crypt(const bool& ENCRYPT)
     }
 
     if(ENCRYPT)
-        algorithm->encrypt(in, out);
+        encrypt(in, out);
     else
-        algorithm->decrypt(in, out);
+        decrypt(in, out);
 
     // Check if everything went well
     if(!in.eof())
@@ -78,12 +75,14 @@ void EncryptDialog::crypt(const bool& ENCRYPT)
     in.close();
     out.close();
 
-    if(QFile::exists(outputPathEdit->text())) //overwrite file?
-        if(!QFile::remove(outputPathEdit->text())) //otherwise QFile::rename doesn't work
+    if(QFile::exists(outputPathEdit->text()))                   // Overwrite file?
+    {
+        if(!QFile::remove(outputPathEdit->text()))              // Otherwise QFile::rename doesn't work
         {
-            QFile::remove(outputPathEdit->text()+ " - temp"); //remove the temp file
+            QFile::remove(outputPathEdit->text()+ " - temp");   // Remove the temp file
             QMessageBox::critical(this, "Error overwriting file", "An error occurred while overwriting the file "+outputPathEdit->text());
         }
+    }
     if(QFile::rename(outputPathEdit->text() + " - temp", outputPathEdit->text()))
     {
         if(ENCRYPT)
@@ -122,8 +121,9 @@ QString EncryptDialog::getFileExtension(const QString& path)
     return "";
 }
 
-long long EncryptDialog::getFileSize(std::ifstream& file) //why no stat()? to make sure files over 2GB are correctly interpreted on 32-bit machines.
+long long EncryptDialog::getFileSize(std::ifstream& file)
 {
+    // Why no stat()? To make sure files over 2GB are correctly interpreted on 32-bit machines
     file.seekg(0, std::ios::end);
     long long size = file.tellg();
     file.seekg(0);
@@ -137,9 +137,9 @@ bool EncryptDialog::isValidFilePath(const QString& path)
 
 bool EncryptDialog::isValidOutputPath(const QString& path)
 {
-    int pos = path.lastIndexOf('/'); //we need to cut the file name out
+    int pos = path.lastIndexOf('/');    // Wwe need to cut the file name out
     QString dirpath = path.left(pos+1);
     QDir dir(dirpath);
-    return dir.exists(); //no static func avaiblable, sadly
+    return dir.exists();                // No static func avaiblable, sadly
 }
 
